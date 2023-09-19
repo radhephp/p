@@ -1,0 +1,242 @@
+		Shell script
+	1)
+Write a menu driven shell script to perform following operation
+1. Decimal to Binary 2. Decimal to Octal 3. Decimal to Hexadecimal
+
+#!/bin/bash
+
+while true; do
+    clear
+    echo "Decimal to Binary, Octal, and Hexadecimal Converter"
+    echo "1. Decimal to Binary"
+    echo "2. Decimal to Octal"
+    echo "3. Decimal to Hexadecimal"
+    echo "4. Quit"
+
+    read -p "Enter your choice (1/2/3/4): " choice
+
+    case $choice in
+        1)
+            read -p "Enter a decimal number: " decimal
+            binary=$(echo "obase=2; $decimal" | bc)
+            echo "Binary: $binary"
+            ;;
+        2)
+            read -p "Enter a decimal number: " decimal
+            octal=$(echo "obase=8; $decimal" | bc)
+            echo "Octal: $octal"
+            ;;
+        3)
+            read -p "Enter a decimal number: " decimal
+            hex=$(echo "obase=16; $decimal" | bc)
+            echo "Hexadecimal: $hex"
+            ;;
+        4)
+            echo "Exiting the program. Goodbye!"
+            exit 0
+            ;;
+        *)
+            echo "Invalid choice. Please enter a valid option (1/2/3/4)."
+            ;;
+    esac
+
+    read -p "Press Enter to continue..."
+done
+-----------------------------------------------------------------------------------------------------------
+
+2)Write Unix shell script that display content of file line by line. It displays total 
+words and characters in each line of the file. At the end, it should display, 
+total number of characters in the file and total lines.
+
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <file>"
+    exit 1
+fi
+
+file="$1"
+total_chars=0
+total_lines=0
+
+while IFS= read -r line; do
+    # Count characters in the line
+    char_count=${#line}
+    
+    # Count words in the line
+    word_count=$(echo "$line" | wc -w)
+    
+    # Display line content, character count, and word count
+    echo "Line $((total_lines + 1)): $line"
+    echo "   Characters: $char_count"
+    echo "   Words: $word_count"
+    
+    # Increment total characters and lines
+    total_chars=$((total_chars + char_count))
+    total_lines=$((total_lines + 1))
+done < "$file"
+
+# Display total characters and lines
+echo "Total Characters in the file: $total_chars"
+echo "Total Lines in the file: $total_lines"
+-----------------------------------------------------------------------------------------------------------
+
+3)Write command line shell script for reveres the number
+
+#!/bin/bash
+
+# Check if an argument is provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <number>"
+    exit 1
+fi
+
+number="$1"
+
+# Reverse the number using rev command (for Linux)
+reversed_number=$(echo "$number" | rev)
+
+# For macOS (BSD-based), use the following command instead
+# reversed_number=$(echo "$number" | awk '{ for(i=length($0);i!=0;i--)x=x substr($0,i,1);}END{print x}')
+
+echo "Original number: $number"
+echo "Reversed number: $reversed_number"
+-----------------------------------------------------------------------------------------------------------
+
+4)Write a menu driven shell script to perform following operation
+1. Compare two strings.
+2. Join two strings.
+3. Find the length of a given string.
+4. Occurrence of character and words
+5. Reverse the string
+
+#!/bin/bash
+
+while true; do
+    clear
+    echo "String Operations Menu"
+    echo "1. Compare two strings"
+    echo "2. Join two strings"
+    echo "3. Find the length of a given string"
+    echo "4. Count occurrence of characters and words"
+    echo "5. Reverse the string"
+    echo "6. Quit"
+
+    read -p "Enter your choice (1/2/3/4/5/6): " choice
+
+    case $choice in
+        1)
+            read -p "Enter the first string: " str1
+            read -p "Enter the second string: " str2
+            if [ "$str1" = "$str2" ]; then
+                echo "Strings are equal."
+            else
+                echo "Strings are not equal."
+            fi
+            ;;
+        2)
+            read -p "Enter the first string: " str1
+            read -p "Enter the second string: " str2
+            joined_string="$str1$str2"
+            echo "Joined string: $joined_string"
+            ;;
+        3)
+            read -p "Enter a string: " str
+            length=${#str}
+            echo "Length of the string: $length"
+            ;;
+        4)
+            read -p "Enter a string: " str
+            read -p "Enter a character to count: " char
+            char_count=$(echo "$str" | grep -o "$char" | wc -l)
+            word_count=$(echo "$str" | wc -w)
+            echo "Character '$char' occurs $char_count times in the string."
+            echo "Number of words in the string: $word_count"
+            ;;
+        5)
+            read -p "Enter a string: " str
+            reversed_str=$(echo "$str" | rev)
+            echo "Reversed string: $reversed_str"
+            ;;
+        6)
+            echo "Exiting the program. Goodbye!"
+            exit 0
+            ;;
+        *)
+            echo "Invalid choice. Please enter a valid option (1/2/3/4/5/6)."
+            ;;
+    esac
+
+    read -p "Press Enter to continue..."
+done
+-----------------------------------------------------------------------------------------------------------
+5) Write a menu driven shell script to perform following operation
+	1. To display all users names.
+	2. Users name of particular group.
+	3. Name of users who are currently working on the system.
+	4. Exit"
+
+#!/bin/bash
+
+while true; do
+    clear
+    echo "User Management Menu"
+    echo "1. Display all user names"
+    echo "2. Display user names of a particular group"
+    echo "3. Display names of users currently working on the system"
+    echo "4. Exit"
+
+    read -p "Enter your choice (1/2/3/4): " choice
+
+    case $choice in
+        1)
+            echo "All user names on the system:"
+            cut -d: -f1 /etc/passwd
+            ;;
+        2)
+            read -p "Enter the name of the group: " group_name
+            echo "User names in the '$group_name' group:"
+            grep "^$group_name:" /etc/group | cut -d: -f4 | tr ',' '\n'
+            ;;
+        3)
+            echo "Users currently working on the system:"
+            who | cut -d' ' -f1 | sort -u
+            ;;
+        4)
+            echo "Exiting the program. Goodbye!"
+            exit 0
+            ;;
+        *)
+            echo "Invalid choice. Please enter a valid option (1/2/3/4)."
+            ;;
+    esac
+
+    read -p "Press Enter to continue..."
+done
+-----------------------------------------------------------------------------------------------------------
+
+6) Write an awk script to print even numbers
+
+#!/bin/bash
+
+read -p "enter end number: " input
+
+echo "$input"|awk'{
+	split($0,numbers, " ")
+	for(i=1;i<length(numbers);i++)
+	{
+		if(numbers[i] %2 == 0)
+		{
+			print numbers[i]
+		}
+	}
+
+}'
+
+
+
+
+
+
+	
+

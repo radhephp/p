@@ -1,0 +1,144 @@
+1. Display line 4 to 8 from file myfile
+	head -n 8 studet.txt | tail -n 5
+
+2. Display last word of the file myfile
+	cut -d  "|" -f 5 studnet.txt|tail -n 1
+
+3. Count the length of second last line of myfile.
+	tail -n 2 stud.txt | head -n 1 |wc -c
+
+4. Count the number of words in line 3 to 6 of file myfile.
+	head -n 5 stud |tain -n 4 | wc -c
+
+5. Delete all vowel from the file myfile.
+	tr -d '[a,e,i,o,u,A,E,I,O,U]' < myfile
+
+6. Count total number of spaces in a file myfile.
+	tr -cd '  '  < stud | wc -c
+
+7. Change the delimiter of file stud.lst from “|” to “;”
+	tr '|' ';' < student.txt
+
+8. Display line number before each line of myfile.
+	cat -n stud.txt
+
+9. Display all unique word of file myfile
+	tr '  ' '\n' < myfile | sort | uniq -u
+
+10. Count the occurrence of each word from myfile.
+	tr '  ' '\n' < myfile | sort | uniq -c
+
+11. Count number of vowels in a file myfile
+	tr -cd '[a,e,i,o,u,A,E,I,O,U]' <stud.txt | wc -c
+
+12. Write a command to remove the repeated lines from the file myfile.
+	sort -u myfile
+
+13. Display last accessed file. 
+	ls -t
+
+14. Display last three modified files.
+	ls -t1 | tail -3
+
+15. Count number of login users. 
+	who | wc -l
+
+16. Find unique city from student.lst
+	cut -d "|" -f 5 stud |sort|uniq -u
+
+17. Display only the city in which only one student is living.
+	sort -t "|" -k 5 stud.txt |cut -d "|" -f 5 | uniq -u
+
+18. Convert myfile in uppercase.
+	tr '[a-z]' '[A-Z]' < myfile
+
+
+		USING grep
+a. Display all lines of file f1 that is longer than 20 characters.
+	grep '.\{21,\}'  f1.txt
+
+b. Display only the name of all regular files of working directory
+	ls -p | grep -v / | grep -E '^[^/]+$'
+
+c. Locate lines of file f2 that begins and ends with a dot (.) and containing 
+anything between them.
+	grep '\..*\.' f1.txt
+
+d. Display all lines of file f2 that contain * character. 
+	grep '\*' f1.txt
+
+e. Display all lines of file f1 that contain characters more than five.
+	grep -E '.{6,}' f1.txt
+
+f. Display all lines of file f1 that contain exact 5 characters.
+	grep '^.....$' f1.txt
+
+g. Locate lines of file f1 that contains either hardware, software or firmware.
+	grep -E 'hardware|saoftware|firmware' f1.txt
+
+h. Display lines that start with ‘The’ and end with ‘.’
+	grep '^The.*\.$' f1.txt
+
+i. To display all words that starts and ends with the same character
+	grep -o '\b\([a-zA-A0-9]\)\([a-zA-A0-9]*\)\1\b' f1.txt
+
+j. To display all words of f1 file whose length greater than equal to 10 
+character.
+	grep -oE '\b\w{10,}\b' f1.txt
+
+k. To display list of files of working directory whose name consist of at most
+three characters.
+	ls | grep -E '^.{1,3}$'
+
+l. Display all lines of input file that begins with any digit
+	grep '^[0-9]' f1.txt
+
+m. Display all lines of input file that begins with any special character.
+	grep '^[^a-zA-Z0-9]' f1.txt
+
+n. Display count of those lines that start with ‘hello’
+	grep -c '^hello' f1.txt
+
+o. Display all files of working directory in which first line contain ‘hello’.
+	grep -l '^hello' *
+
+
+		USING sed
+
+a. Select lines having any word begins with ‘a’ and end with ‘h’.
+	sed -n '/\ba[a-zA-Z]*h\b/p' h1.txt
+
+b. To replace globally unix with linux other than first five lines.
+	sed '1,5s/unix/linux/g' h1.txt
+
+	
+c. To add spaces at beginning of each line.
+	sed 's/^/  /' h1.txt
+
+d. To display three lines starting from 5th line of file x1.
+	sed -n '5,7p' h1.txt
+
+e. To replace ‘Unix shell programming’ with ‘Unix & shell programming’.
+	sed 's/unix shell programming/unix \& shell programming /g' x1.txt
+
+f. Delete all digits in the input from standard input file.
+	sed 's/[0-9]//g' x1.txt
+	
+g. Add two spaces to the beginning of each line and two dashes to the end of 
+each line.
+	sed 's/^/   /;s/$/--/' h1.txt
+
+h. Display all files, which have read, write and execute permission for the group.
+	find vvk 	-type f -perm /g=wrx | sed 's/^/File:/'
+
+i. Display all files, which have read and write permission for the others.
+	find vvk 	-type f -perm /o=rw  | sed 's/^/File:/'
+
+j. Write a command to list files, which have write permission to the group 
+users
+	find vvk 	-type f -perm /g=w| sed 's/^/File:/'
+
+		
+
+
+
